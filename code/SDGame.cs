@@ -1,14 +1,10 @@
 ﻿
 using Sandbox;
-using Sandbox.UI.Construct;
-using System;
-using System.IO;
-using System.Threading.Tasks;
 
 //
 // You don't need to put things in a namespace, but it doesn't hurt.
 //
-namespace TSC
+namespace ShitDrift
 {
 
 	/// <summary>
@@ -21,10 +17,10 @@ namespace TSC
 	/// Your game needs to be registered (using [Library] here) with the same name 
 	/// as your game addon. If it isn't then we won't be able to find it.
 	/// </summary>
-	[Library( "tsc" )]
-	public partial class TSCGame : Sandbox.Game
+	[Library( "shitdrift" )]
+	public partial class SDGame : Sandbox.Game
 	{
-		public TSCGame()
+		public SDGame()
 		{
 			if ( IsServer )
 			{
@@ -34,7 +30,7 @@ namespace TSC
 				// and when it is created clientside it creates the actual
 				// UI panels. You don't have to create your HUD via an entity,
 				// this just feels like a nice neat way to do it.
-				new TSCHudEntity();
+				new SDHudEntity();
 			}
 
 			if ( IsClient )
@@ -50,10 +46,15 @@ namespace TSC
 		{
 			base.ClientJoined( client );
 
-			var player = new TSCPlayer();
+			var player = new SDPlayer();
 			client.Pawn = player;
 
 			player.Respawn();
+		}
+
+		public override void BuildInput( InputBuilder input )
+		{
+			base.BuildInput( input );
 		}
 	}
 

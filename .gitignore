@@ -1,6 +1,6 @@
 code/obj
 code/Properties
-code/tsc.csproj
+code/*.csproj
 code/accesslist.txt
 .intermediate/
 tools*.bin

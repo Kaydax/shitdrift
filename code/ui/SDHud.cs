@@ -1,22 +1,27 @@
-﻿using Sandbox.UI;
+﻿using Sandbox;
+using Sandbox.UI;
 
 //
 // You don't need to put things in a namespace, but it doesn't hurt.
 //
-namespace TSC
+namespace ShitDrift
 {
 	/// <summary>
 	/// This is the HUD entity. It creates a RootPanel clientside, which can be accessed
 	/// via RootPanel on this entity, or Local.Hud.
 	/// </summary>
-	public partial class TSCHudEntity : Sandbox.HudEntity<RootPanel>
+	public class SDHudEntity : Sandbox.HudEntity<RootPanel>
 	{
-		public TSCHudEntity()
+		public MouseCapture mc;
+
+		public SDHudEntity()
 		{
 			if ( IsClient )
 			{
 				//RootPanel.SetTemplate( "/ui/tschud.html" );
-				RootPanel.StyleSheet.Load( "/ui/tschud.scss" );
+				RootPanel.StyleSheet.Load( "/ui/SDHud.scss" );
+
+				mc = RootPanel.AddChild<MouseCapture>();
 
 				RootPanel.AddChild<Health>();
 				RootPanel.AddChild<ChatBox>();

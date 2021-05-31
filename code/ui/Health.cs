@@ -2,7 +2,7 @@
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-namespace TSC
+namespace ShitDrift
 {
 	public class Health : Panel
 	{
