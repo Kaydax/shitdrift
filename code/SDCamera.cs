@@ -14,6 +14,8 @@ namespace ShitDrift
 		float maxFOV;
 		float maxSpeed;
 
+		SDPlayer pawn;
+
 		public SDCamera() : this( 250.0f, 70.0f, 90.0f, 350.0f )
 		{
 		}
@@ -29,18 +31,13 @@ namespace ShitDrift
 			Rot = Rotation.FromPitch(90.0f);
 			Viewer = null;
 
-			var pawn = Local.Pawn;
+			pawn = Local.Pawn as SDPlayer;
 			if ( pawn != null )
 				Pos = lastPos = pawn.EyePos;
 		}
 
 		public override void Update()
 		{
-			SDPlayer pawn = Local.Pawn as SDPlayer;
-
-			if ( pawn == null )
-				return;
-
 			Pos = pawn.EyePos;
 			var targetPos = Pos + Vector3.Up * Elevation;
 
@@ -59,7 +56,7 @@ namespace ShitDrift
 			}
 
 			var speed = Pos.Distance( lastPos ) / Time.Delta;
-			FieldOfView = Lerp(FieldOfView, MapFOV( speed ), .25f);
+			FieldOfView = Lerp(FieldOfView, MapFOV( speed ), 5f * Time.Delta);
 
 			lastPos = Pos;
 		}
@@ -67,10 +64,10 @@ namespace ShitDrift
 		public override void BuildInput( InputBuilder input )
 		{
 			input.AnalogMove = input.AnalogMove.Normal;
+			input.InputDirection = input.AnalogMove;
+			input.ViewAngles = new Angles( 0, pawn.angleLocal, 0 );
 
 			input.StopProcessing = true;
-
-			base.BuildInput( input );
 		}
 		private float MapFOV( float value )
 		{

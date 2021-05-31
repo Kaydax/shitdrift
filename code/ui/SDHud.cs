@@ -26,6 +26,7 @@ namespace ShitDrift
 				RootPanel.AddChild<Health>();
 				RootPanel.AddChild<ChatBox>();
 				RootPanel.AddChild<KillFeed>();
+				RootPanel.AddChild<Scoreboard<ScoreboardEntry>>();
 			}
 		}
 	}

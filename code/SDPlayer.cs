@@ -27,8 +27,8 @@ namespace ShitDrift
 			//
 			// Use WalkController for movement (you can make your own PlayerController for 100% control)
 			//
-			Controller = new WalkController();
-			//Controller = new CarController();
+			//Controller = new WalkController();
+			Controller = new CarController();
 
 			//
 			// Use StandardPlayerAnimator  (you can make your own PlayerAnimator for 100% control)
@@ -74,8 +74,7 @@ namespace ShitDrift
 
 		public override void FrameSimulate( Client cl )
 		{
-			var player = (cl.Pawn as SDPlayer);
-			player.EyeRot = Rotation.FromYaw(player.angleLocal);
+			Input.Rotation = Rotation.FromYaw(angleLocal);
 
 			base.FrameSimulate( cl );
 		}
