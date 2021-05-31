@@ -6,6 +6,7 @@ namespace ShitDrift
 	partial class SDPlayer : Player
 	{
 		public float angleLocal = 0.0f;
+		public float distanceLocal = 0.0f;
 
 		SDCamera camera;
 
@@ -33,7 +34,8 @@ namespace ShitDrift
 			//
 			// Use StandardPlayerAnimator  (you can make your own PlayerAnimator for 100% control)
 			//
-			Animator = new StandardPlayerAnimator();
+			//Animator = new StandardPlayerAnimator();
+			Animator = new TPoseAnimator();
 
 			//
 			// Use ThirdPersonCamera (you can make your own Camera for 100% control)

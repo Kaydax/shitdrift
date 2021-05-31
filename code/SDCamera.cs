@@ -22,7 +22,7 @@ namespace ShitDrift
 
 		SDPlayer pawn;
 
-		public SDCamera() : this( 250.0f, 150.0f, 500.0f, 70.0f, 90.0f, 350.0f )
+		public SDCamera() : this( 250.0f, 150.0f, 500.0f, 70.0f, 110.0f, 450.0f )
 		{
 		}
 
@@ -59,7 +59,15 @@ namespace ShitDrift
 			}
 			Elevation = MathX.LerpTo( Elevation, DesiredElevation, 5.0f * Time.Delta );
 
+			var angleRadians = MathX.DegreeToRadian( pawn.angleLocal );
 			Pos = pawn.EyePos;
+			var speed = MathF.Sqrt( MathF.Pow( Pos.x - lastPos.x, 2 ) + MathF.Pow( Pos.y - lastPos.y, 2 ) ) / Time.Delta;
+			FieldOfView = Lerp( FieldOfView, MapFOV( speed ), 5f * Time.Delta, 15f * Time.Delta );
+			lastPos = Pos;
+
+			var dist = MathX.Clamp( pawn.distanceLocal, .0f, 25 * Math.Min(Screen.Height, Screen.Width) / Elevation );
+			Pos += new Vector3( MathF.Cos( angleRadians ) * dist, MathF.Sin( angleRadians ) * dist, .0f );
+
 			var targetPos = Pos + Vector3.Up * Elevation;
 
 			if ( sd_cam_collision )
@@ -69,18 +77,13 @@ namespace ShitDrift
 					.Radius( 8 )
 					.Run();
 
-				targetPos.z = MathX.Clamp(tr.EndPos.z, minElevation, DesiredElevation);
+				targetPos.z = MathX.Clamp(tr.EndPos.z, minElevation, Elevation);
 				Pos = tr.EndPos;
 			}
 			else
 			{
 				Pos = targetPos;
 			}
-
-			var speed = MathF.Sqrt(MathF.Pow(Pos.x - lastPos.x, 2) + MathF.Pow( Pos.y - lastPos.y, 2 ) ) / Time.Delta;
-			FieldOfView = Lerp(FieldOfView, MapFOV( speed ), 5f * Time.Delta, 15f * Time.Delta );
-
-			lastPos = Pos;
 		}
 
 		public override void BuildInput( InputBuilder input )
