@@ -7,8 +7,6 @@ namespace ShitDrift
 	{
 		public override void Simulate()
 		{
-
-			Log.Info( $"{Input.Rotation.Angles()}" );
 			// Face whichever way the player is aiming
 			Rotation = Input.Rotation;
 
