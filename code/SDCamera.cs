@@ -42,7 +42,7 @@ namespace ShitDrift
 
 			pawn = Local.Pawn as SDPlayer;
 			if ( pawn != null )
-				Pos = lastPos = pawn.EyePos;
+				Pos = lastPos = pawn.Position;
 		}
 
 		public override void Update()
@@ -60,7 +60,7 @@ namespace ShitDrift
 			Elevation = MathX.LerpTo( Elevation, DesiredElevation, 5.0f * Time.Delta );
 
 			var angleRadians = MathX.DegreeToRadian( pawn.angleLocal );
-			Pos = pawn.EyePos;
+			Pos = pawn.Position;
 			var speed = MathF.Sqrt( MathF.Pow( Pos.x - lastPos.x, 2 ) + MathF.Pow( Pos.y - lastPos.y, 2 ) ) / Time.Delta;
 			FieldOfView = Lerp( FieldOfView, MapFOV( speed ), 5f * Time.Delta, 15f * Time.Delta );
 			lastPos = Pos;
