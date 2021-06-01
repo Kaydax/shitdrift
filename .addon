@@ -1,20 +1,3 @@
 {
-		"name": "shitdrift",
-		"sharedassets": "*.*",
-		
-		"depends": 
-		[
-			"base",
-			"citizen",
-			"rust"
-		],
-
-		"gamemodes":
-		[
-			{
-				"name": "shitdrift",
-				"title": "ShitDrift",
-				"description": "Vzshhhhhh vshhzhhhhzhzhhshsh nyyyouuum"
-			}
-		]
+	"sharedassets": "*.*"
 }

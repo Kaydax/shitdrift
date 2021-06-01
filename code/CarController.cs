@@ -1,26 +1,33 @@
 ﻿using Sandbox;
+using System;
 
 namespace ShitDrift
 {
 	[Library]
-	public class CarController : BasePlayerController
+	public partial class CarController : BasePlayerController
 	{
+		// TODO: prediction
+		[Net]
+		Vector3 Acceleration { get; set; }
+		[Net]
+		Vector3 Speed { get; set; }
+
 		public override void Simulate()
 		{
 			// Face whichever way the player is aiming
 			Rotation = Input.Rotation;
 
 			// Create a direction vector from the input from the client
-			var direction = new Vector3( Input.Forward, Input.Left, 0 );
+			/*Acceleration = (new Vector3( Input.Forward, 0, 0 ) * Rotation).Normal * 10000.0f;
 
-			// Rotate the vector so forward is the way we're facing
-			direction *= Rotation;
-
-			// Normalize it and multiply by speed
-			direction = direction.Normal * 1000;
+			Speed += Acceleration * Time.Delta;
+			Acceleration *= MathF.Sin( MathF.Atan2(Speed.x * Acceleration.y - Speed.y * Acceleration.x, Speed.x * Acceleration.x + Speed.y * Acceleration.y ) ) * 100.0f;
+			Speed *= 0.95f;
 
 			// Apply the move
-			Position += direction * Time.Delta;
+			Position += Speed * Time.Delta;
+
+			DebugOverlay.Line( Position, (Position + Acceleration * Time.Delta).Normal, 1, false);*/
 		}
 	}
 }

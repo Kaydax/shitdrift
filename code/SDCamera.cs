@@ -6,7 +6,7 @@ namespace ShitDrift
 	class SDCamera : Camera
 	{
 		[UserVar]
-		public static bool sd_cam_collision { get; set; } = true;
+		public static bool sd_cam_collision { get; set; } = false;
 		public float Elevation;
 		
 		float DesiredElevation;
@@ -65,7 +65,7 @@ namespace ShitDrift
 			FieldOfView = Lerp( FieldOfView, MapFOV( speed ), 5f * Time.Delta, 15f * Time.Delta );
 			lastPos = Pos;
 
-			var dist = MathX.Clamp( pawn.distanceLocal, .0f, 25 * Math.Min(Screen.Height, Screen.Width) / Elevation );
+			var dist = MathX.Clamp( pawn.distanceLocal, .0f, Math.Min(Screen.Height, Screen.Width) / 5 ); // TODO: magic number
 			Pos += new Vector3( MathF.Cos( angleRadians ) * dist, MathF.Sin( angleRadians ) * dist, .0f );
 
 			var targetPos = Pos + Vector3.Up * Elevation;

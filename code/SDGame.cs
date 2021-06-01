@@ -49,7 +49,7 @@ namespace ShitDrift
 			var player = new SDPlayer();
 			client.Pawn = player;
 
-			player.Respawn();
+			//player.Spawn();
 		}
 
 		public override void BuildInput( InputBuilder input )

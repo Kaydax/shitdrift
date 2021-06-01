@@ -1,14 +1,11 @@
 ﻿using Sandbox;
-using System.Linq;
 
 namespace ShitDrift
 {
-	partial class SDPlayer : Player
+	partial class SDPlayer : Prop, IPhysicsUpdate
 	{
 		public float angleLocal = 0.0f;
 		public float distanceLocal = 0.0f;
-
-		SDCamera camera;
 
 		public SDPlayer()
 		{
@@ -16,38 +13,23 @@ namespace ShitDrift
 
 		public override void Spawn()
 		{
-			camera = new SDCamera();
+			Camera = new SDCamera();
 
 			base.Spawn();
-		}
 
-		public override void Respawn()
-		{
 			SetModel( "models/citizen/citizen.vmdl" );
 
-			//
-			// Use WalkController for movement (you can make your own PlayerController for 100% control)
-			//
-			//Controller = new WalkController();
-			Controller = new CarController();
-
-			//
-			// Use StandardPlayerAnimator  (you can make your own PlayerAnimator for 100% control)
-			//
-			//Animator = new StandardPlayerAnimator();
-			Animator = new TPoseAnimator();
-
-			//
-			// Use ThirdPersonCamera (you can make your own Camera for 100% control)
-			//
-			Camera = camera;
+			MoveType = MoveType.Physics;
+			CollisionGroup = CollisionGroup.Interactive;
+			PhysicsEnabled = true;
+			UsePhysicsCollision = true;
 
 			EnableAllCollisions = true;
 			EnableDrawing = true;
 			EnableHideInFirstPerson = true;
 			EnableShadowInFirstPerson = true;
 
-			base.Respawn();
+			SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
 		}
 
 		/// <summary>
@@ -56,13 +38,11 @@ namespace ShitDrift
 		public override void Simulate( Client cl )
 		{
 			base.Simulate( cl );
-			
-			SimulateActiveChild( cl, ActiveChild );
 
 			//
 			// If we're running serverside and Attack1 was just pressed, spawn a ragdoll
 			//
-			if ( IsServer && Input.Pressed( InputButton.Attack1 ) )
+			if ( IsServer && Input.Down( InputButton.Attack1 ) )
 			{
 				/*var ragdoll = new ModelEntity();
 				ragdoll.SetModel( "models/citizen/citizen.vmdl" );
@@ -71,6 +51,7 @@ namespace ShitDrift
 				ragdoll.SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
 				ragdoll.PhysicsGroup.Velocity = EyeRot.Forward * 1000;*/
 				Log.Info( "Pew" );
+				PhysicsGroup.Velocity = Vector3.Forward * Input.Rotation * 1000;
 			}
 		}
 
@@ -79,6 +60,11 @@ namespace ShitDrift
 			Input.Rotation = Rotation.FromYaw(angleLocal);
 
 			base.FrameSimulate( cl );
+		}
+
+		public void OnPostPhysicsStep( float dt )
+		{
+			//throw new System.NotImplementedException();
 		}
 	}
 }
